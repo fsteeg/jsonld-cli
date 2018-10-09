@@ -17,51 +17,61 @@ and [jsonld-request][]. Inputs can be from stdin, URLs, or files.
 
 ## Installation
 
-```
-npm install -g jsonld-cli
-```
+Go to the checked out git repository location:
+
+    cd jsonld-cli
+
+Install your local version:
+
+    sudo npm install -g
+
+If local install fails, try uninstalling any previous version:
+
+    sudo npm uninstall -g jsonld-cli
+
+Or install latest release from the npm repository:
+
+    sudo npm install -g jsonld-cli --unsafe-perm
 
 ## Usage
 
 The `jsonld` command line tool can be used to:
 
+ * Import N-Quads to JSON-LD
  * Transform JSON-LD to compact, expanded, normalized, or flattened form
  * Transform RDFa to JSON-LD
- * Normalize JSON-LD/RDFa Datasets to NQuads
+ * Normalize JSON-LD/RDFa Datasets to N-Quads
+
+All inputs can be given as a local file name, a URL, or standard in (`-`).
 
 To show tool options, a list of commands, or command options:
 
     jsonld --help
     jsonld COMMAND --help
 
-To compact a document on the Web using a JSON-LD context published on
-the Web:
+To import from N-Quads:
 
-    jsonld compact -c "https://w3id.org/payswarm/v1" "http://recipes.payswarm.com/?p=10554"
+    jsonld import test/doc.txt
 
-The command above will read in a PaySwarm Asset and Listing in RDFa 1.0 format,
-convert it to JSON-LD expanded form, compact it using the
-'https://w3id.org/payswarm/v1' context, and dump it out to the console in
-compacted form.
+To frame a document using a JSON-LD frame:
 
-    jsonld normalize -q "http://recipes.payswarm.com/?p=10554"
+    jsonld frame -f test/frame.json test/doc.json
 
-The command above will read in a PaySwarm Asset and Listing in RDFa 1.0 format,
-normalize the data using the RDF Dataset normalization algorithm, and
-then dump the output to normalized NQuads format. The NQuads can then be
-processed via SHA-256, or similar algorithm, to get a deterministic hash
-of the contents of the Dataset.
+To compact a document using a JSON-LD context:
+
+    jsonld compact -c test/context.json test/doc.json
+
+To normalize as N-Quads:
+
+    jsonld normalize -q test/doc.json
+
+The N-Quads can then be processed via SHA-256, or similar algorithm, to get a deterministic hash of the contents of the Dataset.
 
 Commercial Support
 ------------------
 
 Commercial support for this library is available upon request from
 [Digital Bazaar][]: support@digitalbazaar.com
-
-Source Code
------------
-
-http://github.com/digitalbazaar/jsonld-cli
 
 [Digital Bazaar]: http://digitalbazaar.com/
 [JSON-LD]: http://json-ld.org/
